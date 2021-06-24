@@ -1,9 +1,32 @@
-export class ContaCorrente{
-    agencia
-    cliente;
+import { Cliente } from "./Cliente.js";
 
+export class ContaCorrente{
+    static numeroDeContas = 0
+    agencia
+
+    _cliente;
     // #saldo = 0  https://github.com/tc39/proposal-class-fields#private-fields
     _saldo = 0
+
+    get saldo(){
+        return this._saldo
+    }
+
+    set cliente(novoValor){
+        if(novoValor instanceof Cliente){
+            this._cliente = novoValor
+        }
+    }
+
+    get cliente(){
+        return this._cliente
+    }
+
+    constructor(agencia, cliente){
+        this.agencia = agencia
+        this.cliente = cliente
+        ContaCorrente.numeroDeContas += 1
+    }
 
     sacar(valor){
         if(this._saldo >= valor){
@@ -21,7 +44,6 @@ export class ContaCorrente{
     }
 
     transferir(valor, conta){
-        conta.cidade = "São Paulo"
         const valorScado = this.sacar(valor)
         conta.depositar(valorScado)
     }
